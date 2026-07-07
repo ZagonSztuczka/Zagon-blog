@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zagon — praktyczna wiedza o uprawie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil: #2B2015;
+    --soil-soft: #4A3826;
+    --straw: #D9AE55;
+    --straw-light: #F0D999;
+    --moss: #4E5D3A;
+    --chalk: #F3EEE2;
+    --chalk-dim: #E7DFCC;
+    --sky: #6E7F82;
+    --ink: #241B12;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--chalk);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+  a{ color: inherit; text-decoration: none; }
+
+  /* ===== HEADER / HERO ===== */
+  header{
+    background: var(--soil);
+    color: var(--chalk);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 1.4rem 2rem;
+    max-width: 1100px; margin:0 auto;
+    border-bottom: 1px solid rgba(243,238,226,0.12);
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight:600;
+    letter-spacing: 0.02em;
+  }
+  .brand span{ color: var(--straw); }
+  nav{ display:flex; gap: 1.8rem; font-size: 0.92rem; }
+  nav a:hover{ color: var(--straw); }
+
+  .hero{
+    max-width: 1100px; margin: 0 auto;
+    padding: 4.5rem 2rem 5rem;
+    display:grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 3rem;
+    align-items:end;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+    line-height: 1.12;
+    max-width: 14ch;
+  }
+  .hero h1 em{ font-style: italic; color: var(--straw); }
+  .hero p{
+    margin-top: 1.3rem;
+    color: var(--chalk-dim);
+    max-width: 42ch;
+    font-size: 1.02rem;
+  }
+
+  /* season strip — signature element */
+  .season-strip{
+    display:flex;
+    flex-direction:column;
+    gap: 0;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+  }
+  .season-row{
+    display:grid;
+    grid-template-columns: 3.4rem 1fr auto;
+    align-items:center;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(243,238,226,0.1);
+  }
+  .season-row .month{ color: var(--straw); opacity:0.85; }
+  .season-row .bar{
+    height: 5px;
+    background: rgba(217,174,85,0.15);
+    border-radius: 2px;
+    position:relative;
+    overflow:hidden;
+  }
+  .season-row .bar i{
+    position:absolute; left:0; top:0; bottom:0;
+    background: var(--straw);
+    border-radius: 2px;
+  }
+  .season-row .tag{ color: var(--chalk-dim); opacity:0.7; text-align:right; white-space:nowrap;}
+  .season-label{
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sky);
+    margin-bottom: 0.6rem;
+  }
+
+  /* ===== MAIN ===== */
+  main{ max-width: 1100px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+  .section-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--moss);
+    display:flex; align-items:center; gap: 0.7rem;
+    margin-bottom: 1.6rem;
+  }
+  .section-eyebrow::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background: var(--chalk-dim);
+  }
+
+  .posts{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  .post-card{
+    background:#fff;
+    border: 1px solid var(--chalk-dim);
+    border-radius: 4px;
+    padding: 1.8rem;
+    display:flex;
+    flex-direction:column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .post-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(43,32,21,0.08);
+  }
+  .post-meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--moss);
+    text-transform:uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.9rem;
+  }
+  .post-card h3{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+  .post-card p{
+    font-size: 0.93rem;
+    color: var(--soil-soft);
+    flex:1;
+  }
+  .read-more{
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--soil);
+    display:inline-flex;
+    align-items:center;
+    gap: 0.4rem;
+  }
+  .post-card:hover .read-more{ color: var(--moss); }
+
+  /* about / trust strip */
+  .about-strip{
+    background: var(--chalk-dim);
+    border-radius: 4px;
+    padding: 2.4rem 2.6rem;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items:center;
+    margin-bottom: 5rem;
+  }
+  .about-strip h2{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin-bottom: 0.7rem;
+  }
+  .about-strip p{ color: var(--soil-soft); max-width: 56ch; font-size: 0.95rem; }
+  .btn{
+    background: var(--soil);
+    color: var(--chalk);
+    padding: 0.9rem 1.6rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space:nowrap;
+  }
+  .btn:hover{ background: var(--moss); }
+
+  footer{
+    border-top: 1px solid var(--chalk-dim);
+    padding: 2.5rem 2rem;
+    text-align:center;
+    font-size: 0.85rem;
+    color: var(--sky);
+  }
+
+  @media (max-width: 800px){
+    .hero{ grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem 3rem;}
+    .posts{ grid-template-columns: 1fr; }
+    .about-strip{ grid-template-columns: 1fr; text-align:left; }
+    nav{ display:none; }
+  }
+
+  a:focus-visible, .btn:focus-visible{
+    outline: 2px solid var(--straw);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .post-card{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">zagon<span>.</span></div>
+    <nav>
+      <a href="#poradniki">Poradniki</a>
+      <a href="#o-blogu">O blogu</a>
+      <a href="#kalendarz">Kalendarz prac</a>
+    </nav>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>Uprawa bez <em>zgadywania.</em></h1>
+      <p>Praktyczna wiedza o nawożeniu, ochronie roślin i planowaniu upraw — dla małych gospodarstw i działkowców, którzy chcą robić to dobrze, nie kosztem czasu i pieniędzy.</p>
+    </div>
+    <div class="season-strip" id="kalendarz">
+      <div class="season-label">Prace w polu — lipiec</div>
+      <div class="season-row"><span class="month">01–10</span><div class="bar"><i style="width:70%"></i></div><span class="tag">nawożenie pogłówne</span></div>
+      <div class="season-row"><span class="month">05–20</span><div class="bar"><i style="width:45%"></i></div><span class="tag">monitoring szkodników</span></div>
+      <div class="season-row"><span class="month">10–31</span><div class="bar"><i style="width:85%"></i></div><span class="tag">przygotowanie do żniw</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="poradniki">
+    <div class="section-eyebrow">Najnowsze poradniki</div>
+    <div class="posts">
+
+      <div class="post-card">
+        <div class="post-meta">Nawożenie · 6 min czytania</div>
+        <h3>Nawożenie pogłówne zbóż — kiedy i ile, żeby nie przepłacić</h3>
+        <p>Rozkładamy na czynniki pierwsze terminy i dawki azotu w kolejnych fazach wzrostu, żeby uniknąć najczęstszego błędu: nawożenia „na oko".</p>
+        <div class="read-more">Czytaj artykuł →</div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-meta">Ochrona roślin · 5 min czytania</div>
+        <h3>Jak rozpoznać pierwsze objawy mączniaka, zanim zniszczy plon</h3>
+        <p>Trzy cechy, po których poznasz grzybicę na wczesnym etapie, oraz kiedy interwencja chemiczna faktycznie się opłaca.</p>
+        <div class="read-more">Czytaj artykuł →</div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-meta">Planowanie · 7 min czytania</div>
+        <h3>Kalendarz nawożenia dla małego gospodarstwa — szablon do pobrania</h3>
+        <p>Gotowy arkusz, w którym rozpisujesz terminy i dawki na cały sezon w 15 minut, zamiast wracać do tego co tydzień.</p>
+        <div class="read-more">Pobierz szablon →</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="about-strip" id="o-blogu">
+    <div>
+      <h2>Dlaczego Zagon</h2>
+      <p>Piszę na podstawie realnej wiedzy z branży rolniczej — bez sponsorowanych zachwytów nad produktami. Jeśli link prowadzi do sklepu, to dlatego, że sam bym tego produktu użył, nie odwrotnie.</p>
+    </div>
+    <a href="#" class="btn">Zapisz się na powiadomienia</a>
+  </div>
+</main>
+
+<footer>
+  © 2026 Zagon — praktyczny blog o uprawie. Kontakt: redakcja@zagon.example
+</footer>
+
+</body>
+</html>
